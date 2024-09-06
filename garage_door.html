@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>子供向けガレージドアアプリ</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <div class="garage">
+            <div class="shutter-container">
+                <div class="shutter">
+                    <div class="shutter-panel"></div>
+                    <div class="shutter-panel"></div>
+                    <div class="shutter-panel"></div>
+                    <div class="shutter-panel"></div>
+                    <div class="shutter-panel"></div>
+                    <div class="shutter-panel"></div>
+                    <div class="shutter-panel"></div>
+                    <div class="shutter-panel"></div>
+                    <div class="handle"></div>
+                </div>
+            </div>
+        </div>
+        <div class="remote-control">
+            <button class="arrow arrow-up" id="arrowUp"></button>
+            <button class="arrow arrow-down" id="arrowDown"></button>
+            <button class="sound-toggle" id="soundToggle">♪</button>
+            <button class="theme-toggle" id="themeToggle">☀</button>
+        </div>
+    </div>
+
+    <audio id="shutterSound" src="garage_open.mp3"></audio>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+.app-container {
+    width: 300px;
+    background-color: #e0e0e0;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s;
+}
+
+.app-container.night-mode {
+    background-color: #333;
+}
+
+.garage {
+    width: 100%;
+    height: 445px;
+    background-color: #d3d3d3;
+    position: relative;
+    border: 10px solid #8b4513;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.night-mode .garage {
+    background-color: #222;
+}
+
+.shutter-container {
+    width: 100%;
+    height: 500px;
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+}
+
+.shutter {
+    width: 100%;
+    height: 400px;
+    position: absolute;
+    top: -320px;
+    background-color: #a9a9a9;
+    transition: top 0.2s linear;
+}
+
+.night-mode .shutter {
+    background-color: #444;
+}
+
+.shutter-panel {
+    width: 100%;
+    height: 50px;
+    background-color: #c0c0c0;
+    border-top: 2px solid #d3d3d3;
+    border-bottom: 2px solid #a0a0a0;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.night-mode .shutter-panel {
+    background-color: #555;
+    border-top: 2px solid #666;
+    border-bottom: 2px solid #333;
+}
+
+.handle {
+    width: 50px;
+    height: 10px;
+    background-color: #8b4513;
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+}
+
+.remote-control {
+    width: 100%;
+    height: 120px;
+    background-color: #4a4a4a;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.night-mode .remote-control {
+    background-color: #222;
+}
+
+.arrow, .sound-toggle, .theme-toggle {
+    width: 60px;
+    height: 60px;
+    background-color: #ff6347;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 0.3s, transform 0.1s;
+    user-select: none;
+    border: none;
+    outline: none;
+}
+
+.arrow:hover, .sound-toggle:hover, .theme-toggle:hover {
+    opacity: 0.7;
+}
+
+.arrow:active, .sound-toggle:active, .theme-toggle:active {
+    transform: scale(0.95);
+}
+
+.arrow::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+}
+
+.arrow-up::after {
+    border-bottom: 25px solid white;
+}
+
+.arrow-down::after {
+    border-top: 25px solid white;
+}
+
+.sound-toggle, .theme-toggle {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 24px;
+}
+
+.night-mode .sound-toggle, .night-mode .theme-toggle {
+    background-color: #2196F3;
+}
