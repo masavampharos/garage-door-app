@@ -11,6 +11,7 @@ body {
 
 .app-container {
     width: 300px;
+    height: 600px;
     background-color: #e0e0e0;
     border-radius: 20px;
     overflow: hidden;
