@@ -9,30 +9,26 @@ const appContainer = document.getElementById('app');
 let isSoundOn = true;
 let isMoving = false;
 let moveInterval;
-let fadeOutInterval;
 let isDayMode = true;
 
 function playShutterSound() {
     if (isSoundOn && !isMoving) {
         shutterSound.currentTime = 0;
-        shutterSound.volume = 1;
-        shutterSound.play();
-        isMoving = true;
+        const playPromise = shutterSound.play();
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                isMoving = true;
+            }).catch(error => {
+                console.log('Playback prevented. Reason:', error);
+            });
+        }
     }
 }
 
-function fadeOutSound() {
-    clearInterval(fadeOutInterval);
-    fadeOutInterval = setInterval(() => {
-        if (shutterSound.volume > 0.1) {
-            shutterSound.volume -= 0.1;
-        } else {
-            clearInterval(fadeOutInterval);
-            shutterSound.pause();
-            shutterSound.volume = 1;
-            isMoving = false;
-        }
-    }, 50);
+function stopShutterSound() {
+    shutterSound.pause();
+    shutterSound.currentTime = 0;
+    isMoving = false;
 }
 
 function moveShutter(direction) {
@@ -55,30 +51,38 @@ function moveShutter(direction) {
     shutter.style.top = newTop + 'px';
 
     if (newTop === minTop || newTop === maxTop) {
-        fadeOutSound();
+        stopShutterSound();
         clearInterval(moveInterval);
     }
 }
 
 function startMoving(direction) {
     clearInterval(moveInterval);
-    clearInterval(fadeOutInterval);
-    shutterSound.volume = 1;
     moveInterval = setInterval(() => moveShutter(direction), 16);
 }
 
 function stopMoving() {
     clearInterval(moveInterval);
-    fadeOutSound();
+    stopShutterSound();
+}
+
+function handleTouchStart(direction) {
+    startMoving(direction);
+    event.preventDefault(); // iOSの拡大鏡を防止
+}
+
+function handleTouchEnd() {
+    stopMoving();
+    event.preventDefault(); // iOSの拡大鏡を防止
 }
 
 arrowUp.addEventListener('mousedown', () => startMoving('up'));
 arrowDown.addEventListener('mousedown', () => startMoving('down'));
-arrowUp.addEventListener('touchstart', () => startMoving('up'));
-arrowDown.addEventListener('touchstart', () => startMoving('down'));
+arrowUp.addEventListener('touchstart', () => handleTouchStart('up'));
+arrowDown.addEventListener('touchstart', () => handleTouchStart('down'));
 
 document.addEventListener('mouseup', stopMoving);
-document.addEventListener('touchend', stopMoving);
+document.addEventListener('touchend', handleTouchEnd);
 
 soundToggle.addEventListener('click', () => {
     isSoundOn = !isSoundOn;
@@ -90,3 +94,15 @@ themeToggle.addEventListener('click', () => {
     appContainer.classList.toggle('night-mode');
     themeToggle.textContent = isDayMode ? '☀' : '☽';
 });
+
+// iOS Safariでの自動再生制限に対処
+document.addEventListener('touchstart', function() {
+    if (shutterSound.paused) {
+        shutterSound.play().then(() => {
+            shutterSound.pause();
+            shutterSound.currentTime = 0;
+        }).catch(error => {
+            console.log('Playback prevented. Reason:', error);
+        });
+    }
+}, { once: true });
